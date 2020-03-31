@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Product from './components/Product';
+import ShoppingCart from './components/ShoppingCart';
 
 function App() {
   const dateNow = new Date().getFullYear();
@@ -11,6 +12,11 @@ function App() {
     { id: 3, name: 'Camisa NodeJS', price: 76 },
     { id: 4, name: 'Camisa LitElement', price: 49.9 },
   ]);
+  const [shoppingCart, setProductCart] = useState([]);
+  const addShoppingCartItem = (product) => {
+    setProductCart([...shoppingCart, product])
+  };
+
   return (
     <Fragment>
       <Header
@@ -22,9 +28,13 @@ function App() {
           <Product
             key={product.id}
             product={ product }
+            setProductCart= {setProductCart}
+            addShoppingCartItem={addShoppingCartItem}
+            shoppingCart={shoppingCart}
           />
         ))
       }
+      <ShoppingCart/>
       <Footer
         dateNow={dateNow}
       />

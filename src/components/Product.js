@@ -1,10 +1,10 @@
 import React from 'react'
 
 const Product = (props) => {
-  let {id, name, price} = props.product;
+  let {name, price} = props.product;
 
   const productSelection = () => {
-    console.log('comprando...', id);
+    props.addShoppingCartItem(props.product);
   }
   return ( <div>
     <h2> {name} </h2>
