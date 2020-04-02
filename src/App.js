@@ -11,10 +11,13 @@ function App() {
     { id: 2, name: 'Camisa Angular', price: 60 },
     { id: 3, name: 'Camisa NodeJS', price: 76 },
     { id: 4, name: 'Camisa LitElement', price: 49.9 },
+    { id: 5, name: 'Basic T-Shirt', price: 15.9 },
+    { id: 6, name: 'T-Shirt Geek', price: 19.9 },
   ]);
-  const [shoppingCart, setProductCart] = useState([]);
+  const [cart, setProductCart] = useState([]);
+
   const addShoppingCartItem = (product) => {
-    setProductCart([...shoppingCart, product])
+    setProductCart([...cart, product])
   };
 
   return (
@@ -27,14 +30,16 @@ function App() {
         products.map( product => (
           <Product
             key={product.id}
+            title="Comprar"
             product={ product }
-            setProductCart= {setProductCart}
-            addShoppingCartItem={addShoppingCartItem}
-            shoppingCart={shoppingCart}
+            clickedProductAction={addShoppingCartItem}
+            cart={cart}
           />
         ))
       }
-      <ShoppingCart/>
+      <ShoppingCart
+        cart={cart}
+      />
       <Footer
         dateNow={dateNow}
       />

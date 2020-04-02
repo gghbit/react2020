@@ -1,10 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const Product = (props) => {
-  let {name, price} = props.product;
+  let {product: {name, price}, title} = props;
 
-  const productSelection = () => {
-    props.addShoppingCartItem(props.product);
+  const productSelection = (evt) => {
+    evt.preventDefault();
+    props.clickedProductAction(props.product);
   }
   return ( <div>
     <h2> {name} </h2>
@@ -12,8 +13,7 @@ const Product = (props) => {
     <button
       type="button"
       onClick={productSelection}
-    >Comprar</button>
+    >{title}</button>
   </div> )
 }
-
 export default Product;
