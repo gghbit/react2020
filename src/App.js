@@ -15,11 +15,19 @@ function App() {
     { id: 6, name: 'T-Shirt Geek', price: 19.9 },
   ]);
   const [cart, setProductCart] = useState([]);
+  const [buyCounter, setBuyCounter ] = useState(0);
+  const [deleteCounter, setDeleteCounter ] = useState(0);
 
   const addShoppingCartItem = (product) => {
-    setProductCart([...cart, product])
+    setBuyCounter(buyCounter + 1);
+    setProductCart([...cart, {...product, buyId: ''+ product.id + buyCounter + deleteCounter }])
   };
-
+  const removeProductCart= (product) => {
+    let updatedCart = cart.filter(item => item.buyId !== product.buyId)
+    setProductCart([...updatedCart]);
+    setBuyCounter(buyCounter - 1);
+    setDeleteCounter(deleteCounter + 1);
+  }
   return (
     <Fragment>
       <Header
@@ -27,7 +35,7 @@ function App() {
       />
       <h1>Lista de Productos</h1>
       {
-        products.map( product => (
+        products.map( (product) => (
           <Product
             key={product.id}
             title="Comprar"
@@ -39,6 +47,10 @@ function App() {
       }
       <ShoppingCart
         cart={cart}
+        counter={ buyCounter }
+        title="Tu carrito de Compras"
+        buttonTitle='Eliminar'
+        removeProductCart= {removeProductCart}
       />
       <Footer
         dateNow={dateNow}

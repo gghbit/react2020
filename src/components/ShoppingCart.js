@@ -3,18 +3,22 @@ import './shoppingCart.css';
 import Product from './Product';
 
 const ShoppingCart = (props) => {
-  let { cart } = props;
+  let { title, cart, counter, buttonTitle, removeProductCart} = props;
+  const showCounterMessage = (counter) => ( counter ? <h3>Articulos en el carrito { counter }</h3> : '');
+
   return (
     <div className="cart">
-      <h2> Tu carrito de Compras</h2>
+      <h2>{ title }</h2>
+      { showCounterMessage(counter) }
       {
         cart.length
         ?
           cart.map(product => (
             <Product
-              key={product.id}
+              key={product.buyId}
               product={product}
-              title="Eliminar"
+              title={buttonTitle}
+              clickedProductAction={removeProductCart}
             />
           ))
         : <p>El carrito esta vacío </p>
