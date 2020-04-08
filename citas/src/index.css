@@ -77,9 +77,9 @@ input[type="time"] {
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
 }
-.button.eliminar,
-.button.eliminar:hover {
-  background-color: #c10059;
+.button,
+.button:hover {
+  background-color: #30E8BF;
   color: white;
   margin-top: 2rem;
 }

@@ -1,14 +1,19 @@
 import React, { Fragment, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types';
 
-const Form = () => {
+const Form = (props) => {
 	const [appointment, updateAppointment] = useState({
 		pet: '',
 		responsible: '',
-		datee: '',
+		dateAppt: '',
 		hour: '',
 		signs: ''
 	});
-	const { datee, hour, pet, responsible, signs } = appointment;
+	const { dateAppt, hour, pet, responsible, signs } = appointment;
+
+	const [error, updateApptrror] = useState(false);
+
 	const handleChangeValueInput = evt => {
 		updateAppointment({
 			...appointment,
@@ -19,24 +24,32 @@ const Form = () => {
 	const submitAppointment= evt => {
 		evt.preventDefault();
 		let isFull = fnIsFull(appointment);
+		updateApptrror(!isFull);
 		if(isFull) {
-			console.log('Listo')
-		} else {
-			console.log('Error')
+			appointment.id = uuidv4();
+			props.createAppointment(appointment);
+			updateAppointment({
+				pet: '',
+				responsible: '',
+				dateAppt: '',
+				hour: '',
+				signs: ''
+			});
 		}
 	};
 	const fnIsFull = appointment => {
 		let keys = Object.keys(appointment);
-		const isFull = keys.every( item => appointment[item].trim() !== '');
+		const isFull = keys.every( item => appointment[item].trim());
 		return keys.length ? isFull : false;
 	}
 
 	return (
 		<Fragment>
-			<h2> Crear cita</h2>
+			{ error ? <p className="alerta-error"> Todos los campos son obligatorios</p> : null}
 			<form onSubmit={submitAppointment}>
 				<label>Nombre mascota</label>
 				<input
+					autoComplete={props.autocomplete}
 					type="text"
 					name="pet"
 					className="u-full-width"
@@ -46,6 +59,7 @@ const Form = () => {
 				/>
 				<label>Nombre del responsable</label>
 				<input
+					autoComplete={props.autocomplete}
 					type="text"
 					name="responsible"
 					className="u-full-width"
@@ -56,9 +70,9 @@ const Form = () => {
 				<label>Fecha</label>
 				<input
 					className="u-full-width"
-					name="datee"
+					name="dateAppt"
 					type="date"
-					value={datee}
+					value={dateAppt}
 					onChange={handleChangeValueInput}
 				/>
 				<label>Hora</label>
@@ -77,12 +91,20 @@ const Form = () => {
 					onChange={handleChangeValueInput}
 				></textarea>
 				<button
-					className="u-full-width button-primary"
+					className="u-full-width button-primary "
 					type="submit"
 				> Agregar cita</button>
 			</form>
 		</Fragment>
 	);
+}
+
+Form.defaultProps = {
+	autocomplete: 'off',
+};
+Form.propTypes = {
+	createAppointment: PropTypes.func.isRequired,
+	autocomplete: PropTypes.string
 }
 
 export default Form;
